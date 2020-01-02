@@ -2,6 +2,7 @@
 Cassandra is a NoSQL database classified as a Column-type data store. In this exercise, you will build a
 database and conduct queries using the DVD scenario. In order to create the appropriate database, 
 please review all the requirements before you design the table.  
+
 Requirements  
 Please implement a solution to address the following requirements using Cassandra. You will be
 required to submit all the code used to create the Keyspace, table(s), any indexes, data inserts and
