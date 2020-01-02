@@ -1,0 +1,86 @@
+--Create a keyspace called DVDRW
+CREATE KEYSPACE DVDRW
+WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
+
+--In the keyspace DVDRW, create a table called DVDTableRW
+USE DVDRW;
+CREATE TABLE DVDTableRW (
+    title varchar,
+    actors set<text>,
+    price float,
+    genre varchar,
+    releasedate date,
+    PRIMARY KEY (genre, price)
+)
+WITH CLUSTERING ORDER BY (price DESC);
+
+--Create secondary index
+CREATE INDEX idx_actors ON DVDTableRW(actors);
+CREATE INDEX idx_releasedate ON DVDTableRW(releasedate);
+
+DESCRIBE DVDTableRW;
+
+--Insert 6 records into the table DVDTableRW
+INSERT INTO DVDTableRW 
+    (title, actors, price, genre, releasedate) 
+VALUES 
+   ('Last Summer',{'Fatone, Joey','Petrick, Jesse'}, 24.99, 'Drama','2014-12-2');
+
+INSERT INTO DVDTableRW 
+    (title, actors, price, genre, releasedate) 
+VALUES 
+   ('Power', {'Petrick, Jesse'}, 34.05, 'Drama','2015-7-21');
+
+INSERT INTO DVDTableRW 
+    (title, actors, price, genre, releasedate) 
+VALUES 
+   ('Serenity', {'Petrick, Jesse','Janney, Allison'}, 27.10, 'Drama','2000-10-17');
+
+INSERT INTO DVDTableRW 
+    (title, actors, price, genre, releasedate) 
+VALUES 
+   ('Heiress', {'Adkins, Seth'}, 15.20, 'Animation','2013-8-17');
+
+INSERT INTO DVDTableRW 
+    (title, actors, price, genre, releasedate) 
+VALUES 
+   ('Rainbow', {'Janney, Allison'}, 29.75, 'Animation','2011-9-14');
+
+INSERT INTO DVDTableRW 
+    (title, actors, price, genre, releasedate) 
+VALUES 
+   ('Trickster', {'Burmester, Leo'}, 30.10, 'Comedy','2000-8-4');
+
+SELECT * FROM DVDTableRW;
+
+--a.Show all DVD titles, prices and genres
+SELECT title, price, genre FROM DVDTableRW;
+
+--b.Show all titles and prices by prices in descending for Drama
+SELECT title, price FROM DVDTableRW
+WHERE genre='Drama';
+
+--c.Show titles and prices for Animation
+SELECT title, price FROM DVDTableRW
+WHERE genre='Animation';
+
+--d.Show the count of unique genres
+SELECT DISTINCT count(genre) FROM DVDTableRW;
+
+--e.Show the average price of DVD in each genre
+SELECT avg(price) FROM DVDTableRW
+GROUP BY genre;
+
+--f.Show all the title and actors
+SELECT title, actors FROM DVDTableRW;
+
+--g.Show all title that 'Fatone, Joey' in
+SELECT title FROM DVDTableRW
+WHERE actors contains 'Petrick, Jesse';
+
+--h.Show all title and release dates which is in 2000
+SELECT title, releasedate FROM DVDTableRW
+WHERE releasedate >='2000-01-01' and releasedate <='2000-12-31'ALLOW FILTERING;
+
+
+
