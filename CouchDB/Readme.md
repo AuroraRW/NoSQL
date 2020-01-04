@@ -1,7 +1,7 @@
 # Question
 Introduction  
 CouchDB is a popular document-type database. Since it uses the http protocol and JSON for
-communications, libraries are easy to create for various programming environments. In this assignment,
+communications, libraries are easy to create for various programming environments. In this exercise,
 you will use Python to demonstrate access to a CouchDB database. You will be implementing a simple
 contact list.  
 Requirements  
